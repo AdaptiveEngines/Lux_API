@@ -13,7 +13,7 @@ Access to the API is through the url
 ## Dashboard
 The Dashboard has a management where account information can be viewed, created or modified for Any account that has lower permissions than your own. 
 
-
+```
 /*&#x3b1*/
 {
 	 "adjust/":{
