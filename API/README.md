@@ -1,38 +1,69 @@
-# API Proxy Service $_1^1$
-This allows any Proxy that is set-up to the queried from the JS by forwarding the API call to the Proxy and returning the direct results of that API call to the JS.
+# API Tunnel
+The API tunnel is designed as a way to allow users to make calls to 3rd party APIs that require either OAuth or App level authentication, all while avoiding CORS. If the provider is properly set-up and user's are logged in, then access should be relatively simple.
 
-The API Proxy service includes a way to make OAuth calls by looking for the User's access\_token and making calls with that.
+It is important to note that the provider will throw an error if the path/params are not properly formatted- or if the request being made is out of the scope for the user.
 
-## API
-### Get
-* Params?
-* Call
-* Service
+## Access
+Access to the API is through the url 
 
-In the database must already be a service with key\_name and key specified.
+```
+/Lux/API/<api_name>
+```
 
-### Fetch [not yet implemented] 
-* Params?
-* Call
-* Service
-* key\_name
+## Dashboard
+The Dashboard has a management where provider information can be viewed, created or modified for App level providers. 
 
-The difference between the get and fetch calls is that fetch will use the appropriate user specific key that was obtained during OAuth
 
-### Adjust service
-* base\_url?
-* key?
-* key\_name?
-* service
-
-This call can be used to update the parameters that are stored in the database, this can be particularly useful if an API updates the base\_url or a new key is required, without needing to update the values across a variety of platforms
-
-## Document Structure
-
-| Property | Value |
-|----------|-------|
-| DB Provider: | Mongo |
-| Database(s): | System |
-| Collection(s): | API | 
-| 3rd Party: | x |
-
+/*&#x3b1*/
+{
+	 "adjust/":{
+		 "return":{
+			"doc":"The updated providers document"
+		}		
+		,"params": {
+			 "provider_name" : "The name of the provider which developers would like to use."
+			,"base_url" : "Base url for the request"
+			,"key" : "The key assigned by the provider"
+			,"key_name" : "The name for the key that the provider expects"
+		}
+		,"description":"Adjust can be used to alter the App level APIs that are saved in the system"
+		,"rule":"5, providers"
+		,"database":{
+			 "db":"Auth"
+			,"collection":"Providers"
+		}
+		,"linked":[]
+	}
+	,"query/":{
+		 "return":{
+			"doc":"The provider or providers documents"
+		}		
+		,"params": {
+			 "[provider_name]" : "The provider you would like to retrieve"
+		}
+		,"description":"Retrieve the provider's documents for use in the dashboard"
+		,"rule":"5, providers"
+		,"database":{
+			 "db":"Auth"
+			,"collection":"Providers"
+		}
+		,"linked":[]
+	}
+	,"get/":{
+		 "return":{
+			"output":"The full output of the API as given by the provider"
+		}		
+		,"params": {
+			 "provider_name" : "The name of the provider which developers would like to use for the login"
+			,"path" : "The path of the request"
+			,"params" : "The parameters of the request, excluding access tokens or keys, which will be provided by the system"
+		}
+		,"description":"Any request to this script will return the full and unaltered output from the provider. This output should be processed or displayed on the client-side as nessicary."
+		,"rule":"N/A"
+		,"database":{
+			 "db":"Auth"
+			,"collection":"Providers"
+		}
+		,"linked":["OAuth"]
+	}
+}

@@ -1,42 +1,56 @@
-# CMS API 
-This API allows developers to add content to a CMS which can be edited from within the Lux Intranet CMS Tool. The CMS API allows content to be uploaded and edited. Content can also be queried from the CMS API so that it can be rendered for the End-User.
+# Content Management System 
+The Content Management system can be used for a variety of purposes, including basic content sections or blog-esq posts. The main content can also have a shortened version attached. Header, sub heading, and url\_safe header's are also allowed- as are pictures and banner images. 
 
-## API
-### Adjust Field
-The Adjust field is used to create and edit the content in a given field on the page. This is very simple but powerful functionality. 
-* field
-* content\_full?
-* content\_medium?
-* content\_short?
-* header.text?
-* header.url\_safe?
-* header.sub?
-* picture.banner?
-* picture.other[]?
-* picture.slideshow[]?
+In addition, the template render system can be used to display content without needing to make a seperate call to fetch that content.
 
-### Get Field
-* field - this can be an array to get multiple fields
-* ~access\_token
+## Access
+Access to the API is through the url 
 
-### Adjust Field Render Options [not yet implemeneted]
-* field
-* setting
-* option
+```
+/Lux/CMS/<api_name>
+```
 
-## API Elaborations
-Adjust Field Render options refers to access level required to get a field.
+## Dashboard
+The content management system within the Dashboard allows the editing and creation of content
 
-## Linked UI Element
-* CMS UI
-
-## Document Structure
-
-| Property | Value |
-|----------|-------|
-| DB Provider: | Mongo |
-| Database(s): | System |
-| Collection(s): | Content | 
-| 3rd Party: | x |
-		
-
+/*&#x3b1*/
+{
+	 "adjust/":{
+		 "return":{
+			"doc":"The updated users document"
+		}		
+		,"params": {
+			 "field_name" : "A unique identifier for this section"
+			,"content.short" : "A shortened version of the content for display"
+			,"content.full" : "A full version of the content for display"
+			,"header.text" : "The header of the content"
+			,"header.sub" : "The sub header"
+			,"header.url_safe" : "A unique identifier that can be used to find the content via URL"
+			,"picture.banner" : "A single identifying picture of the content"
+			,"picture.slideshow[]" : "A slideshow that is relevant to the content"
+			,"picture.other[]" :"Other pictures that may be relevant to the content"
+		}
+		,"description":"The adjust section is used solely in the content Management system and is used to create content that can be shown on the remainder of a site or application." 
+		,"rule":"5, cms"
+		,"database":{
+			 "db":"System"
+			,"collection":"Content"
+		}
+		,"linked":[]
+	}
+	,"query/":{
+		 "return":{
+			"doc":"The user or userss documents"
+		}		
+		,"params": {
+			 "[field_name]" : "The field you would like to retrieve"
+		}
+		,"description":"Retrieve the content for use in either the dashboard CMS or for display"
+		,"rule":"N/A"
+		,"database":{
+			 "db":"System"
+			,"collection":"Content"
+		}
+		,"linked":[]
+	}
+}
