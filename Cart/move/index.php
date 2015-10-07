@@ -26,6 +26,8 @@ $document = $collection->findAndModify(
 				'$push' => array( "cart.".$cartName => array( '$each' => $old["wishlist"][$wishlistName]))
 			));
 
+$LOG = new Logging("Cart.move");
+$LOG->log($RULES->getId(), 42, 1,100, "User Moved wishlist to cart");
 $OUTPUT->success(0,$document, null);
 
 ?>

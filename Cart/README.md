@@ -13,6 +13,13 @@ Access to the API is through the url
 ## Dashboard
 The Dashboard contains an order management section. Although individual shopping/wishlists can not be seen here- you are able to see any orders that have been placed- sorted by user. Orders are entered as individual item's ordered seperately to accommadate different distribution channels
 
+## Logging
+
+User actions are logged using either a code, or an item specific \_id as the trigger.
+
+
+```
+
 /*&#x3b1*/
 {
 	 "add/":{

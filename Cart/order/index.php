@@ -39,6 +39,9 @@ $document = $orders->insert(
 				"status.finalized" => false	
 			));
 
+$LOG = new Logging("Cart.order");
+$LOG->log($RULES->getId(), 42, 2,100, "User Ordered item");
+
 $OUTPUT->success(0,$document, null);
 
 ?>

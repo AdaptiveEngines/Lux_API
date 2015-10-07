@@ -13,6 +13,10 @@ Access to the API is through the url
 ## Dashboard
 The Dashboard has a management where account information can be viewed, created or modified for Any account that has lower permissions than your own. 
 
+## Logging
+
+When a user adjusts or queries an account, the account id is stored as the trigger
+
 ```
 /*&#x3b1*/
 {

@@ -14,6 +14,11 @@ Access to the API is through the url
 The Dashboard has a management where provider information can be viewed, created or modified for App level providers. 
 
 
+## Logging
+When a user makes an adjustment or fetches information from the API then the Providers name is stored as the trigger
+
+```
+
 /*&#x3b1*/
 {
 	 "adjust/":{

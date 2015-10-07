@@ -21,6 +21,9 @@ $document = $collection->findAndModify(
 				'$push' => array( "carts.".$cartName => MongoDBRef::create($collectionName, $REQUEST->get("id"), "Assets"))
 			));
 
+$LOG = new Logging("Cart.add");
+$LOG->log($RULES->getId(), 41, $REQUEST->get("id"),100, "User added item to cart");
+
 $OUTPUT->success(0,$document, null);
 
 ?>

@@ -15,6 +15,10 @@ Access to the API is through the url
 ## Dashboard
 The Dashboard has a management where provider information can be viewed, created or modified for either OAuth1 or OAuth2 providers. 
 
+## Logging
+Logging is not done in this API
+
+```
 
 /*&#x3b1*/
 {

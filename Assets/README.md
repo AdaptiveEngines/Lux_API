@@ -13,6 +13,10 @@ Access to the API is through the url
 ## Dashboard
 The Dashboard has a management where Asset information can be viewed, created or modified within the system.
 
+## Logging 
+When a User adjusts an asset or queries for an asset, the query that is used is stored as the trigger
+
+```
 
 /*&#x3b1*/
 {

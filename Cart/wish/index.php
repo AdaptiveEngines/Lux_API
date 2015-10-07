@@ -21,6 +21,8 @@ $document = $collection->findAndModify(
 				'$push' => array( "wishlist.".$cartName => MongoDBRef::create($collectionName, $REQUEST->get("id"), "Assets"))
 			));
 
+$LOG = new Logging("Cart.order");
+$LOG->log($RULES->getId(), 43, $REQUEST->get("id"),100, "User Wished for item");
 $OUTPUT->success(0,$document, null);
 
 ?>

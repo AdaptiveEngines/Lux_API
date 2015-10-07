@@ -9,6 +9,10 @@ $REQUEST = new Request();
 
 $query = array("user_id" => $RULES->getId());
 $document = $collection->findOne($query);
+
+$LOG = new Logging("Cart.query");
+$LOG->log($RULES->getId(), 42, 3,100, "User viewed items in cart/wishlist");
+
 $OUTPUT->success(0,$document);
 
 ?>

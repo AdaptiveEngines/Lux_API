@@ -21,6 +21,11 @@ Access to the API is through the url
 |  13   | provider   | Any query to a provider API that has been made will appear as this code |
 |  31   | asset query   | Any modifications to an asset|
 |  32   | asset query   | Any queries for  an asset|
+|  41   | asset id   | Any items added to a cart |
+|  42   | 1 | Wishlist moved to cart |
+|  42   | 2 | Items in Cart are orded |
+|  42   | 3 | User viewed items in Cart/Wishlist |
+|  43   | asset id | Item added to wishlist|
 
 
 ### Developer Defined
@@ -31,7 +36,7 @@ Access to the API is through the url
 ## Dashboard
 Information stored through the logging API will appear in the Analytics portion of the Dashboard.
 
-
+```
 /*&#x3b1*/
 {
 	 "Log/":{

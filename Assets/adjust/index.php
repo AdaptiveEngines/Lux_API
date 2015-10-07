@@ -15,7 +15,9 @@ $LOG = new Logging("Asset.adjust");
 $update = Helper::updatePermitted($REQUEST);
 $query = Helper::formatQuery($REQUEST);
 $query = $OWNERSHIP->adjust($collection, $query);
+
 $LOG->log($RULES->getId(), 31, $query, 100, "User Modified Asset");
+
 $options = Helper::formatOptions($REQUEST);
 
 $document = $collection->findAndModify($query, $update, $options);
