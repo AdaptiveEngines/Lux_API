@@ -86,7 +86,7 @@ class Rules{
 			// trim for safety measures
 			$ip = trim($ip);
 			// attempt to validate IP
-			if (validate_ip($ip)) {
+			if ($this->validate_ip($ip)) {
 			    return $ip;
 			}
 		    }

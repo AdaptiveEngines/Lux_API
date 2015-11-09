@@ -2,7 +2,7 @@
 include_once("Db.php");
 
 // functionally working
-class Request{
+class Logging{
 
 	private $DB;
 	private $OUTPUT;
@@ -16,10 +16,11 @@ class Request{
 		$this->API = $API;
 	}
 	function log($client, $event=0, $trigger=0, $severity=100, $message=""){
-		$log = $this->OUTPUT->getLog($client, $event, $trigger, $severity, $message, $this->API);
-		$this->addToDb($log);	
+		$logDoc = $this->OUTPUT->getLog($client, $event, $trigger, $severity, $message, $this->API);
+		$this->addToDb($logDoc);	
 	}
-	private function addToDb($log){
-		$this->log->insert($log);
+	private function addToDb($logDoc){
+		echo json_encode($logDoc);
+		$this->log->insert($logDoc);
 	}
 }

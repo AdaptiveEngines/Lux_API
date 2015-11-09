@@ -13,6 +13,11 @@ Access to the API is through the url
 ## Dashboard
 The content management system within the Dashboard allows the editing and creation of content
 
+## Logging
+Any access to content is logged by adding the field name to the log
+
+```
+
 /*&#x3b1*/
 {
 	 "adjust/":{

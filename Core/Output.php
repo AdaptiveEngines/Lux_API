@@ -38,6 +38,7 @@ class Output{
 			
 		$this->output["request"]["execution_time"] = (microtime(true) - $this->time)*1000;
 		$this->output["request"]["execution_time_units"] = "ns";
+		return $this->output;
 	}	
 	function success($code=3, $data, $results=null){
 		switch($code){

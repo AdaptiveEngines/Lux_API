@@ -11,6 +11,9 @@ $permitted = array("content.full", "content.short", "header.text","header.sub", 
 
 $update = Helper::updatePermitted($REQUEST, $permitted);
 
+$LOG = new Logging("CMS.adjust");
+$LOG->log($RULES->getId(), 51, $REQUEST->get("field_name"),100, "Content Updated");
+
 $query = array("field_name" => $REQUEST->get("field_name")); 
 $results = $collection->update($query, $update);
 $document = $collection->findOne($query);

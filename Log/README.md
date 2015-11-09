@@ -26,6 +26,12 @@ Access to the API is through the url
 |  42   | 2 | Items in Cart are orded |
 |  42   | 3 | User viewed items in Cart/Wishlist |
 |  43   | asset id | Item added to wishlist|
+|  51   | Field name  | Content adjusted by admin |
+|  52   | Field Name  | Content queried | 
+|  61   | asset id  | Asset Obtained | 
+|  62   | level id  | level Obtained | 
+|  63   | metric | Metric changed | 
+
 
 
 ### Developer Defined
