@@ -1,4 +1,5 @@
 <?php
+// Helpers nand includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $FILES = new Files();

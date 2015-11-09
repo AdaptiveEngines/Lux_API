@@ -1,4 +1,5 @@
 <?php
+// Helper and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $db = new Db("System");
@@ -9,7 +10,7 @@ $REQUEST = new Request();
 $query = array("email_id" => $REQUEST->get("email_id")); 
 $document = $collection->findOne($query);
 
-
+// Send mail
 $to = trim(implode(" , ", $document["address"]), ' , ');
 $subject = $REQUEST->get("subject");
 $message = $REQUEST->get("body");

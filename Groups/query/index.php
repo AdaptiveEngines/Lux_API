@@ -1,4 +1,5 @@
 <?php
+// helpers nad includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $db = new Db("SocialNetwork");

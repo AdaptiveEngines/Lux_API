@@ -1,4 +1,5 @@
 <?php
+// Helper functions and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $DB = new Db("System");
@@ -7,7 +8,6 @@ $OUTPUT = new Output();
 $REQUEST = new Request();
 
 // get Password and Username from $REQUEST
-
 $document = $collection->findOne(array('$or' => array( 
 					 array("system_info.user" => $REQUEST->get("user"))
 					,array("system_info.email" => $REQUEST->get("user"))

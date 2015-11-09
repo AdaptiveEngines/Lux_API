@@ -11,6 +11,9 @@ $update = Helper::subDocUpdate($update, "providers.custom");
 
 $options = Helper::formatOptions($REQUEST);
 
+
+// Any profile can be changed by an admin, a normal user 
+// can only change their own profile.
 if($REQUEST->avail("id")){
 	$RULES = new Rules(5, "profile");
 	$document = $collection->findAndModify($REQUEST->get("id"), $update, $options);

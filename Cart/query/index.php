@@ -1,4 +1,5 @@
 <?php
+// Helper functions and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $DB = new Db("Inventory");
@@ -10,6 +11,8 @@ $REQUEST = new Request();
 $query = array("user_id" => $RULES->getId());
 $document = $collection->findOne($query);
 
+
+// Used for analytics
 $LOG = new Logging("Cart.query");
 $LOG->log($RULES->getId(), 42, 3,100, "User viewed items in cart/wishlist");
 

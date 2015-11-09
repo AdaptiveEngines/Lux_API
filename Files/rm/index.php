@@ -1,4 +1,5 @@
 <?php
+// Helpers and include
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $FILES = new Files();

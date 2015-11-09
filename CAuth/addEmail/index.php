@@ -1,4 +1,5 @@
 <?php
+// Helper functions and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $OUTPUT = new Output();
@@ -7,8 +8,7 @@ $RULES = new Rules(1);
 $DB = new Db("System");
 $collection = $DB->selectCollection("Accounts");
 
-
-
+// Send email verification if an email is provided
 if($REQUEST->avail("email")){
 	$eVC = bin2hex(openssl_random_pseudo_bytes(16));
 	$query = array("system_info.access_token"=>$REQUEST->get("access_token"));
@@ -23,6 +23,8 @@ if($REQUEST->avail("email")){
 			))
 			,array('multiple'=>false, 'upsert'=>true)
 	);		
+
+	// Send Email
 	$to      = $REQUEST->get("email");
 	$subject = 'Email Verification';
 	$url = $_SERVER["HTTP_HOST"]."/Lux/CAuth/eVerify/?email=$to&eVC=$eVC";

@@ -1,4 +1,5 @@
 <?php
+// Helper fucntions and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $DB = new Db("System");

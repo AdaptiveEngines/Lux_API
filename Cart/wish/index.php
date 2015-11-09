@@ -1,4 +1,5 @@
 <?php
+// Helper functions and includs
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $db = new Db("Inventory");
@@ -21,6 +22,7 @@ $document = $collection->findAndModify(
 				'$push' => array( "wishlist.".$cartName => MongoDBRef::create($collectionName, $REQUEST->get("id"), "Assets"))
 			));
 
+// Used for analytics
 $LOG = new Logging("Cart.order");
 $LOG->log($RULES->getId(), 43, $REQUEST->get("id"),100, "User Wished for item");
 $OUTPUT->success(0,$document, null);

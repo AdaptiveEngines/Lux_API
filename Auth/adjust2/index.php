@@ -1,9 +1,12 @@
 <?php
+// helper functions and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 $db = new Db("Auth");
 $OUTPUT = new Output();
 $collection = $db->selectCollection("Providers");
+
+// Admin privleges needed
 $RULES = new Rules(5, "providers");
 $REQUEST = new Request();
 
