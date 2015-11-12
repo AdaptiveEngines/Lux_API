@@ -1,40 +1,51 @@
 <?php
+/* Reformatted 12.11.2015 */
 // Helper functions and other includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
+// Create Database Connection
 $DB = new Db("System");
 $OUTPUT = new Output();
 
-// Connects to MongoDB
-$collection = $DB->selectCollection("Accounts");
+// Get Request Data 
 $REQUEST = new Request();
+
+// Admin Privleges needed
 $RULES = new Rules(5, "accounts");
+
+// Selects Collection From Database Connection
+$collectionName = Helper::getCollectionName($REQUEST, "Accounts");
+$collection = $DB->selectCollection($collectionName);
+
+// Format Query
+$query = Helper::formatQuery($REQUEST, "user", "system_info.user");
+
+// Value's which are accepted by the adjustment script
+$permitted = array("user", "email", "role", "permissions[]");
+
+// Format update and options
+$update = Helper::updatePermitted($REQUEST, $permitted);
+$update = Helper::subDocUpdate($update, "system_info");
+$options = Helper::formatOptions($REQUEST);
+
+// Get Old Document
+$document_old = $collection->findOne($query);
 
 // Used in Analytics
 $LOG = new Logging("Accounts.adjust");
 $LOG->log($RULES->getId(), 1, $RULES->getId(),100, "User Modified Account");
 
 
-// Value's which are accepted by the adjustment script
-$permitted = array("user", "email", "role", "permissions[]");
-$update = Helper::updatePermitted($REQUEST, $permitted);
-$update = Helper::subDocUpdate($update, "system_info");
-
-
-// call to databse
-$query = array("system_info.user" => $REQUEST->get("user")); 
-$document_old = $collection->findOne($query);
-
-
-// Piped through Database Class (not Database Driver). 
-$results = $collection->update($query, $update);
+// Find and Modify Documents in Collection
+$results = $collection->findAndModify($query, $update,$options);
 $document = $collection->findOne($query);
-
 
 // Handle if an Admin is creating an account. Email is needed to notify Account Holder (with password). 
 if(is_null($document_old) && isset($document["system_info"]["email"])){
 	$password = bin2hex(openssl_random_pseudo_bytes(8));
 	$hash = password_hash($password, PASSWORD_DEFAULT);
+
+// TODO: Change to $setOnInsert
 	$collection->update($document["_id"]
 			,array('$set' => array(
 					 "system_info.hash" => $hash

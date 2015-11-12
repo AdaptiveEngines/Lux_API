@@ -1,21 +1,33 @@
 <?php
+/* Reformatted 12.11.2015 */
 // Helper functions adn includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
-$db = new Db("Auth");
+// Create Database Connection
+$DB = new Db("Auth");
 $OUTPUT = new Output();
-$collection = $db->selectCollection("Providers");
 
-// Admin privleges required
-$RULES = new Rules(5, "providers");
+// Get Request Data
 $REQUEST = new Request();
 
-// provider name required for query
-$query = Helper::formatQuery($REQUEST, "provider_name", null, array("protocol"=>"OAuth2"));
-$document = $collection->find($query);
+// Admin Privleges required
+$RULES = new Rules(5, "providers");
 
-$OUTPUT->success(1,$document);
+// Selects Collection From Database Connection
+$collectionName = Helper::getCollectionName($REQUEST, "Providers");
+$collection = $DB->selectCollection($collectionName);
+
+// provider name required for specific query (otherwise all will be returned)
+$query = Helper::formatQuery($REQUEST, "provider_name", null, array("protocol"=>"OAuth2"));
+
+// Used for analytics
+$LOG = new Logging("Auth2.query");
+$LOG->log($RULES->getId(), 112, $query,100, "User viewed items in cart/wishlist");
+
+// Find Documents in Collection
+$documents = $collection->find($query);
+
+// Output
+$OUTPUT->success(1,$documents);
 
 ?>
-
-  

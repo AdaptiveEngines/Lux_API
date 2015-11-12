@@ -30,7 +30,7 @@ class Rules{
 			// if the clients role is less than the rule for this file			
 			$this->permission($rule, $permission);
 		}else if($rule > 0){
-				$OUTPUT->error(1,"Access Code is invalid, missing, or has Expired");
+				$OUTPUT->error(1,"Access Code is invalid, missing, or has Expired.");
 		}
 	}
 	private function permission($rule = 0, $permission = null){

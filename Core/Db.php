@@ -11,7 +11,7 @@ class Db{
 	private $REQUEST;
 	private $db_domain;
 
-	function __construct($db){
+	function __construct($db=null){
 		$this->OUTPUT = new Output();
 		$this->REQUEST = new Request();
 		if(class_exists("MongoClient")){
@@ -73,13 +73,13 @@ class Collection{
 	function find($query, $options = array()){
 		$query = $this->queryFix($query);
 		if(isset($options["skip"]) && isset($options["limit"])){
-			$documents = $this->collection->find($query, $options)->skip($options["skip"])->limit($options["limit"]);
+			$documents = $this->collection->find($query)->skip($options["skip"])->limit($options["limit"]);
 		}else if(isset($options["skip"])){
-			$documents = $this->collection->find($query, $options)->skip($options["skip"]);
+			$documents = $this->collection->find($query)->skip($options["skip"]);
 		}else if(isset($options["limit"])){
-			$documents = $this->collection->find($query, $options)->limit($options["limit"]);
+			$documents = $this->collection->find($query)->limit($options["limit"]);
 		}else{
-			$documents = $this->collection->find($query, $options);
+			$documents = $this->collection->find($query);
 		}
 		$documents = iterator_to_array($documents);
 		$documents = $this->resolve($documents, $options);
@@ -93,7 +93,6 @@ class Collection{
 			return $this->collection->count($query);
 		}
 	}
-
 	function metaData($update){
 		
 		$RULES = new Rules(0);
@@ -111,6 +110,13 @@ class Collection{
 			
 		return $update;
 	}
+
+	function metaDataInsert($update){
+		
+		$RULES = new Rules(0);
+		$update_new = $this->metaData($update);	
+		return $update[] = $update_new['$push'];
+	}
 	// takes the options remove and sort 
 	function findAndModify($query=array(), $update=null, $options=null){
 		if(is_null($options)){
@@ -124,9 +130,9 @@ class Collection{
 			$options["new"] = true;
 		}
 		$query = $this->queryFix($query);
-		$update = $this->metaData($update);
-	
-		return $this->collection->findAndModify($query, $update, null, $options);
+		//$update = $this->metaData($update);
+		$this->collection->update($query, $update, $options);
+		return $this->collection->findOne($query);
 	}	
 	function update($query=array(), $update=null, $options=null){
 		if(is_null($options)){
@@ -135,50 +141,18 @@ class Collection{
 		}
 		$options["upsert"] = true;
 		$query = $this->queryFix($query);
-		$update = $this->metaData($update);
-		
+		//$update = $this->metaDataInsert($update);
 		return $this->collection->update($query, $update, $options);
 	}
 	function insert($update=array(), $options=null){
 		if(is_null($options)){
 			$options = array("upsert"=>true, "multiple"=>false);
 		}
-		$update = $this->metaData($update);
+		//$update = $this->metaDataInsert($update);
 		return $this->collection->insert($update, $options);
 	}
 }
 
-/* MAYBE Brought back later, for now depreciated
-
-	function publish($document, $AUTH, $priority=0){
-		$document["info"] = array("sender" => $AUTH->getClientId(), "timestamp" => microtime(), "priority"=> $priority, "checked_by" => array("python" => false, "node" => false));
-		$Published = $this->selectCollection("Published");
-		$Published->update(array("_id"=>$document["_id"]),$document, array("upsert"=>true));
-	}
-	
-	function unpublish($document, $AUTH, $priority=0){
-		$Published = $this->selectCollection("Published");
-		$Published->remove(array("_id"=>$document["_id"]));
-	}
-
-	function subscribe($query, $AUTH){
-		$subscribers = $this->selectCollection("Subscribers");
-		$subDoc = $subscribers->update(
-		array("query"=>$query)
-		,array('$addToSet'=> array("subscribers" => array("id" => $AUTH->getClientId())) 
-	        ,'$set'=>array("timestamp"=>microtime()))
-		,array("upsert"=>true));
-	}
-	
-	function unsubscribe($query, $AUTH){
-		$subscribers = $this->selectCollection("Subscribers");
-		$subDoc = $subscribers->update(
-		array("query"=>$query)
-		,array('$pull'=> array("subscribers" => array(array("id"=>$AUTH->getClientId()))) 
-	        ,'$set'=>array("timestamp"=>microtime()))
-		,array("upsert"=>true));
-	}
-*/
 ?>
 
 

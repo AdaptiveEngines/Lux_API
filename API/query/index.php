@@ -1,24 +1,34 @@
 <?php
+/* Reformatted 12.11.2015 */
 // Helper functions and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
+// Create database Connection
 $db = new Db("Auth");
 $OUTPUT = new Output();
-$collection = $db->selectCollection("Providers");
 
-// Admin priveleges needed to query or edit API providers directly
-$RULES = new Rules(5, "providers");
+// Get Request Data
 $REQUEST = new Request();
+
+// Admin priveleges needed
+$RULES = new Rules(5, "providers");
+
+// Selects Collection from Database Connection
+$collectionName = Helper::getCollectionName($REQUEST, "Providers");
+$collection = $db->selectCollection($collectionName);
 
 // Used for Analytics
 $LOG = new Logging("API.query");
-$LOG->log($RULES->getId(), 12, $REQUEST->get("provider"),100, "User Queried Provider");
+$LOG->log($RULES->getId(), 12, $query,100, "User Queried Provider");
 
-// APIs can only be queried by provider_name
+// Format Query
 $query = Helper::formatQuery($REQUEST, "provider_name", null, array("protocol"=>"App"));
-$document = $collection->find($query);
 
-$OUTPUT->success(1,$document);
+// Find Documents in Collection
+$documents = $collection->find($query);
+
+// Output
+$OUTPUT->success(1,$documents);
 
 ?>
 

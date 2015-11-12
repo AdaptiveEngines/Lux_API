@@ -127,6 +127,7 @@ class Helper{
 		return $update;
 	}
 	static function formatQuery($REQUEST, $value_name=null, $key_name=null, $default=null){
+		$query = array();
 		if(is_null($key_name)){
 			$key_name = $value_name;
 		}
@@ -134,7 +135,11 @@ class Helper{
 			if($REQUEST->avail("query")){
 				$query = $REQUEST->get("query");
 			}else if($REQUEST->avail("id")){
-				$query = array("_id" => new MongoId($REQUEST->get("id")));
+				if(MongoId::isValid($REQUEST->get("id"))){
+					$query = array("_id" => new MongoId($REQUEST->get("id")));
+				}else{
+					$query = array("_id" => $REQUEST->get("id"));
+				}
 			}
 		}else if($REQUEST->avail($value_name)){
 			if($value_name == "id" || $value_name == "_id"){
@@ -150,12 +155,17 @@ class Helper{
 					$query = array($key_name => $REQUEST->get($value_name)); 
 				}
 			}
-		}
-		if(!isset($query)){
-			if(is_null($default)){
-				$query = array();
+		}else{
+			if($REQUEST->avail("query")){
+				$query = $REQUEST->get("query");
+			}else if($REQUEST->avail("id")){
+				$query = array("_id" => new MongoId($REQUEST->get("id")));
 			}else{
-				$query = $default;
+				if(is_null($default)){
+					$query = array();
+				}else{
+					$query = $default;
+				}
 			}
 		}
 		return $query;
@@ -178,6 +188,14 @@ class Helper{
 			$options["limit"] = 25;
 		}
 		return $options;
+	}
+	static function getCollectionName($REQUEST, $default="Standard", $editable=false){
+		if($editable){
+			if($REQUEST->avail("collection"){
+				return $REQUEST->get("collection");
+			}
+		}
+		return $default;
 	}	
 }
 	

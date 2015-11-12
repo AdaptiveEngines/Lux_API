@@ -3,6 +3,7 @@ include_once('/var/www/html/Lux/Core/Helper.php');
 
 $REQUEST = new Request();
 $RULES = new Rules(0, "ownership");
+$OUTPUT = new Output();
 $OWNERSHIP = new Ownership($RULES);
 
 $document = $OWNERSHIP->mine($REQUEST);

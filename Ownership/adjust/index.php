@@ -7,5 +7,4 @@ $OWNERSHIP = new Ownership($RULES);
 
 $OWNERSHIP->grant($REQUEST);
 
-
 ?>

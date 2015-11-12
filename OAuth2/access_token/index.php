@@ -7,7 +7,7 @@ $OUTPUT = new Output();
 $REQUEST = new Request();
 $db2 = new Db("Auth");
 $OUTPUT = new Output();
-$clients = $db->selectCollection("Clients");
+$clients = $db2->selectCollection("Clients");
 
 $client_id = $REQUEST->get("client_id");
 $redirect_uri = $REQUEST->get("redirect_uri");

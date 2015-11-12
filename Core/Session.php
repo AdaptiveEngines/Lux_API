@@ -33,7 +33,7 @@ class Session{
 		}
 	}
 
-	function get($key){
+	function get($key=null){
 		if(isset($_SESSION[$key])){
 			return $_SESSION[$key];
 		}else{

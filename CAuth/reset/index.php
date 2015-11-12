@@ -7,8 +7,8 @@ $RULES = new Rules(1);
 $OUTPUT = new Output();
 $REQUEST = new Request();
 $document = $collection->findOne(array('$or' => array( 
-					array("system_info.user" => $REQUEST->get("user"))
-					array("system_info.email" => $REQUEST->get("user"))
+					 array("system_info.user" => $REQUEST->get("user"))
+					,array("system_info.email" => $REQUEST->get("user"))
 				)));
 
 if(!is_null($document) && isset($document["system_info"]["email"])){

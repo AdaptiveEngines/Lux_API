@@ -15,7 +15,7 @@ class OAuth{
 		
 		// return the appropriate OAuth Class
 		if(isset($this->provider["protocal"])){
-			if($this->provider["protocol"]) && $this->provider["protocal"] == "OAuth1"){
+			if($this->provider["protocol"] && $this->provider["protocal"] == "OAuth1"){
 				return new OAuth1($provider);
 			}
 		}	
@@ -62,7 +62,7 @@ class OAuth2{
 		if($scope == null && isset($this->provider["default_scope"])){
 			$scope = $this->provider["default_scope"];
 		}else{
-			$scope = "email"
+			$scope = "email";
 		}
 		// set the URL parameters
 		$base = $this->provider["base1"]; // should end in /authorize or something

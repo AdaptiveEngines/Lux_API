@@ -6,13 +6,13 @@ class Logging{
 
 	private $DB;
 	private $OUTPUT;
-	private $log;
+	private $logging;
 	private $API; 
 
 	function __construct($API){
 		$this->DB = new Db("Analytics");
 		$this->OUTPUT = new Output();
-		$this->log = $this->DB->selectCollection("Logging");
+		$this->logging = $this->DB->selectCollection("Logging");
 		$this->API = $API;
 	}
 	function log($client, $event=0, $trigger=0, $severity=100, $message=""){
@@ -20,7 +20,6 @@ class Logging{
 		$this->addToDb($logDoc);	
 	}
 	private function addToDb($logDoc){
-		echo json_encode($logDoc);
-		$this->log->insert($logDoc);
+		$this->logging->insert($logDoc);
 	}
 }

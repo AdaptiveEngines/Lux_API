@@ -9,16 +9,16 @@ $RULES = new Rules(1, "orders");
 $REQUEST = new Request();
 
 // get the asset, push it into the cart that is selected
-$document = $orders->findAndUpdate(
+$document = $orders->findAndModify(
 			Helper::formatQuery($REQUEST)
 			,array( // update
-				"shipper_id" => $RULES->getId()
-				"status.shipped" => true
-				"status.recieved" => true
-				"status.paid" => true
-				"status.modified" => true
-				"status.processed" => true
-				"status.finalized" => true
+				 "shipper_id" => $RULES->getId()
+				,"status.shipped" => true
+				,"status.recieved" => true
+				,"status.paid" => true
+				,"status.modified" => true
+				,"status.processed" => true
+				,"status.finalized" => true
 			));
 
 $OUTPUT->success(0,$document, null);

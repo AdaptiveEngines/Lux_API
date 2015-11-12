@@ -1,15 +1,23 @@
 <?php
+/* Reformatted 12.11.2015 */
 // Helper function's and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
+// Create Database Connection
 $db = new Db("Assets");
 $OUTPUT = new Output();
+
+// Get Request Variables 
 $REQUEST = new Request();
 
-// Groups of collections need to be modified sometimes
-$collectionName = $REQUEST->avail("collection") ? $REQUEST->get("collection") : "Standard";
-$collection = $db->selectCollection($collectionName);
+// No Priveleges needed
 $RULES = new Rules(0, "assets");
+
+// Select collection 
+$collectionName = Helper::getCollectionName($REQUEST, "Standard", true);
+$collection = $db->selectCollection($collectionName);
+
+// Find Ownership Rules 
 $OWNERSHIP = new Ownership($RULES);
 
 // Format a query from the request
@@ -17,11 +25,16 @@ $query = Helper::formatQuery($REQUEST);
 
 // Used for analytics
 $LOG = new Logging("Asset.query");
-$LOG->log($RULES->getId(), 32, $query,100, "User Queried Asset");
+$LOG->log($RULES->getId(), 32, $query, 100, "User Queried Asset");
 
-$document = $OWNERSHIP->query($collection->find($query));
+// Find Documents in Collection
+$documents = $collection->find($query);
 
-$OUTPUT->success(1,$document);
+// Filter out unOwned Documents
+$documents = $OWNERSHIP->query($documents);
+
+// Output
+$OUTPUT->success(1,$documents);
 
 ?>
 

@@ -42,7 +42,7 @@ $last = $collection->findOne(
 					 '$query' => array("root" => $thread)
 					,'$orderBy' => array( '$natural' => -1)
 					
-			);
+			));
 $update["root"] = $thread;
 $update["previous"] = $last["_id"];
 $update["sender"] = $RULES->getId();

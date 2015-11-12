@@ -1,24 +1,40 @@
 <?php
+/* Reformatted 12.11.2015 */
 // Helper functions and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
-$db = new Db("Auth");
+// Create Database Connection
+$DB = new Db("Auth");
 $OUTPUT = new Output();
-$collection = $db->selectCollection("Providers");
+
+// Get Request Variables
+$REQUEST = new Request();
 
 // Admin privleges needed
 $RULES = new Rules(5, "providers");
-$REQUEST = new Request();
 
+// Select Collection From Database
+$collectionName = Helper::getCollectionName($REQUEST, "Providers");
+$collection = $DB->selectCollection($collectionName);
+
+// Format Query
+$query = Helper::formatQuery($REQUEST, "provider_name"); 
+
+// Values which are accepted by the adjustment Script
 $permitted = array("provider_name","callback", "consumer_key", "base1", "signature_method", "base2", "base3", "base4", "base5", "default_scope");
 
-$update = Helper::updatePermitted($REQUEST, $permitted);
-$update["protocol"] = "OAuth2";
+// Used for Analytics
+$LOG = new Logging("Auth1.adjust");
+$LOG->log($RULES->getId(), 111, $query, 100, "User Modified Asset");
 
-$query = array("provider_name" => $REQUEST->get("provider_name")); 
-$results = $collection->update($query, $update);
-$document = $collection->findOne($query);
-$OUTPUT->success(0,$document, $results);
+// Format Update and Options
+$update = Helper::updatePermitted($REQUEST, $permitted);
+$update["protocol"] = "OAuth1";
+$options = Helper::formatOptions($REQUEST);
+
+// Find and Modify Documents in Collection
+$documents = $collection->findAndModify($query, $update, $options);
+$OUTPUT->success(0,$documents);
 
 ?>
 

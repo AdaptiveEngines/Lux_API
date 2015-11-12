@@ -5,7 +5,7 @@ $DB = new Db("System");
 $collection = $DB->selectCollection("Accounts");
 $REQUEST = new Request();
 
-if($REQUEST->avail("email")){
+if($REQUEST->get("email")){
 	$document = $collection->update(array(
 				 "system_info.email" => $REQUEST->get("email")
 				,"system_info.eVerified" => $REQUEST->get("eVC"))

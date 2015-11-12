@@ -32,14 +32,19 @@ class Ownership{
 	function check($documents){
 		// see if it is is in the array of ids that have been looked up thus far
 		// if it isn't then add it to the collection because it must be a new document. 
+		//$REQUEST->get("asset_id");
+		return $documents;
 	}
 	function grant($REQUEST){
+		$REQUEST->get("asset_id");
 		// grant permissions
 	}
 	function find($REQUEST){
 		// find document ownership
+		$REQUEST->get("asset_id");
 	}
 	function mine($REQUEST){
 		// find documents owned by this user
+		$REQUEST->get("asset_id");
 	}
 }

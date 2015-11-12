@@ -1,10 +1,11 @@
 <?php
 include_once("/var/www/html/Lux/Core/Helper.php");
 
-$DB = new Db();
+$DB = new Db("System");
 $OUTPUT = new Output("Auth");
-$collection = $db->selectCollection("Providers");
+$collection = $DB->selectCollection("Providers");
 $REQUEST = new Request();
+$RULES = new Rules(0, "api");
 
 $LOG = new Logging("API.get");
 $LOG->log($RULES->getId(), 13, $REQUEST->get("provider"),100, "User Queried Provider API");
@@ -37,13 +38,13 @@ if(isset($service)){
                 $document = $base."/".$call."&".$service["key_name"]."=".$service["key"];
 	// if the call doesn't have any parameters in the GET request, then only add the key to it 
         }else{
-                $document = $base."/".$call."?".$service["key_name"]."=".$service["key"]);
+                $document = $base."/".$call."?".$service["key_name"]."=".$service["key"];
         }
 
 	// Get the post parameters
 	if($LF->is_avail("params")){
 		// send the post parameters
-		if(is_array($LF->fetch_avail("params")){
+		if(is_array($LF->fetch_avail("params"))){
 			$postdata = http_build_query($LF->fetch_avail("params"));
 		}else{
 			$postdata = http_build_query(array($LF->fetch_avail("params")));

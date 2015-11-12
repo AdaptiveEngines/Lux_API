@@ -24,21 +24,21 @@ $old = $cart->findAndModify(
 				"cart.".$cartName => []
 			)
 			,array(
-				'new' => false;
+				'new' => false
 			)
 			);
 
 // Criteria for an order 
 $document = $orders->insert(
 			array( // update
-				"user_id" => $RULES->getId()
-				"items" => $old["cart"][$cartName]
-				"status.shipped" => false
-				"status.recieved" => false
-				"status.paid" => false
-				"status.modified" => false
-				"status.processed" => false
-				"status.finalized" => false	
+				 "user_id" => $RULES->getId()
+				,"items" => $old["cart"][$cartName]
+				,"status.shipped" => false
+				,"status.recieved" => false
+				,"status.paid" => false
+				,"status.modified" => false
+				,"status.processed" => false
+				,"status.finalized" => false	
 			));
 
 // Used for anayltics
