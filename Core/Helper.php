@@ -191,7 +191,7 @@ class Helper{
 	}
 	static function getCollectionName($REQUEST, $default="Standard", $editable=false){
 		if($editable){
-			if($REQUEST->avail("collection"){
+			if($REQUEST->avail("collection")){
 				return $REQUEST->get("collection");
 			}
 		}

@@ -2,7 +2,7 @@
 include_once("/var/www/html/Lux/Core/Helper.php");
 class OAuth{
 	private $provider;
-	function OAuth($provider_name, $sId){
+	public function OAuth($provider_name, $sId){
 		$DB = new Db("Auth");
 		$providers = $DB->selectCollection("Providers");
 		$this->provider = $providers->findOne(array("provier_name" => $provider_name));
