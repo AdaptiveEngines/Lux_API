@@ -15,9 +15,8 @@ $document = $collection->findAndModify(
 				 "user_id" => $RULES->getId()
 			)
 			,array( // update
-				$operator => array( "Levels.".$REQUEST->get("level_id")  => array(
-					 "Sublevels" => $REQUEST->get("sub_level_id")
-				))
+				'$set' => array( "Levels.".$REQUEST->get("level_id").".sub_levels.".$REQUEST->get("sub_level_id").".sub_level_id"  => $REQUEST->get("sub_level_id")
+				)
 			));
 
 $LOG = new Logging("Scoreboard.level");

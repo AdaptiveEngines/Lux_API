@@ -1,40 +1,47 @@
 <?php
 /* Reformatted 12.11.2015 */
-// helpers and includes
+// Helper function's and includes
 include_once('/var/www/html/Lux/Core/Helper.php');
 
 // Create Database Connection
 $DB = new Db("SocialNetwork");
 $OUTPUT = new Output();
 
-// Get Request Variables 
+// Get Request Variables
 $REQUEST = new Request();
 
+// No privleges needed, Ownership rules apply
+$RULES = new Rules(0, "assets");
+$OWNERSHIP = new Ownership($RULES);
+
+// Allows user to switch away from a standard collection
 $collectionName = Helper::getCollectionName($REQUEST, "Groups");
 $collection = $DB->selectCollection($collectionName);
 
-// Values which are permitted by the adjustment script
+// Format Query
+$query = Helper::formatQuery($REQUEST);
+$query = $OWNERSHIP->adjust($collection, $query);
+
+// Values which are accepted by the Adjustment script
 $permitted = array(
-		 "profile_name"
-		,"profile_picture"
+		 "group_name"
+		,"group_picture"
 		,"bio"
 		,"images[]"
 	);
 
-// Format Update and Options
+// Format Update and Options 
 $update = Helper::updatePermitted($REQUEST, $permitted);
-$update = Helper::subDocUpdate($update, "providers.system");
 $options = Helper::formatOptions($REQUEST);
 
-if($REQUEST->avail("id")){
-	$RULES = new Rules(5, "profile");
-	$document = $collection->findAndModify($REQUEST->get("id"), $update, $options);
-}else{
-	$RULES = new Rules(1, "profile");
-	$document = $collection->findAndModify($RULES->getId(), $update, $options);
-}
+// Used for Analytics
+//$LOG = new Logging("Asset.adjust");
+//$LOG->log($RULES->getId(), 31, $query, 100, "User Modified Asset");
+
+// Find and Modify documents in collection
+$documents = $collection->findAndModify($query, $update, $options);
 
 // Output
-$OUTPUT->success(0,$document, null);
+$OUTPUT->success(0,$documents, null);
 
 ?>

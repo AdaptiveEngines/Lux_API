@@ -8,7 +8,7 @@ $collection = $db->selectCollection("Users");
 $RULES = new Rules(1, "scoreboard");
 $REQUEST = new Request();
 
-$quantity = $REQUEST->get("change", false) ? $REQUEST->get("change") : $REQUEST->get("value");
+$quantity = intval($REQUEST->get("change", false) ? $REQUEST->get("change") : $REQUEST->get("value"));
 $operator = $REQUEST->get("change", false) ? '$inc' : '$set';
 
 $metric = $REQUEST->get("metric");

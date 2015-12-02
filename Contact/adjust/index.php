@@ -21,7 +21,7 @@ $collection = $DB->selectCollection($collectionName);
 $query = Helper::formatQuery($REQUEST, "email_id"); //array("email_id" => $REQUEST->get("email_id")); 
 
 // values that are accepted by the adjustment script
-$permitted = array("address[]", "sender");
+$permitted = array("address[]","address", "sender", "email_id");
 
 // Format and Update Options
 $update = Helper::updatePermitted($REQUEST, $permitted);

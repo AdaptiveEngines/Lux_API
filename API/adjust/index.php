@@ -18,19 +18,19 @@ $collectionName = Helper::getCollectionName($REQUEST, "Providers");
 $collection = $DB->selectCollection($collectionName);
 
 // Format Query
-$query = Helper::formatQuery($REQUEST, "provider");
+$query = Helper::formatQuery($REQUEST, "provider_name");
 
 // Value's which are accepted by the adjustment script
 $permitted = array("key", "base_url", "key_name", "provider_name");
 
 // Format update and options
 $update = Helper::updatePermitted($REQUEST, $permitted);
-$update["protocol"] = "App";
+$update['$set']["protocol"] = "App";
 $options = Helper::formatOptions($REQUEST);
 
 // Used for Analytics
 $LOG = new Logging("API.adjust");
-$LOG->log($RULES->getId(), 11, $REQUEST->get("provider"),100, "User Modified Provider");
+$LOG->log($RULES->getId(), 11, $REQUEST->get("provider_name"),100, "User Modified Provider");
 
 // Find And Modify Documents in Collection
 $documents = $collection->findAndModify($query, $update, $options);

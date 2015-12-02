@@ -35,7 +35,7 @@ class Files{
 		return $dir;
 	}
 	function makedir($REQUEST, $target){
-		$path = $target.$REQUEST->get("path");	
+		$path = $target.$REQUEST->get("path", "/var/www/html/uploads/");	
 		$OUTPUT = new Output();
 		if(!mkdir($path, 0777, true)){
 			$OUTPUT->error(1, "Failed to create directory");
@@ -81,21 +81,26 @@ class Files{
 
 	}
 	function upload($REQUEST, $target){
-		$path = $target.$REQUEST->get("path", "/");
+		$OUTPUT = new Output();
+		$path = $REQUEST->get("path", "");
+		if(!file_exists($target.$path)){
+			if(!mkdir($target.$path, 0777, true)){ 
+				$OUTPUT->error(2, "Unable to create appropriate Directory");
+			}
+		}
 		$name = $REQUEST->get("name", "file");
-		$file = $REQUEST->get("file");
-		if(move_uploaded_file($file["tmp_name"], $path.$name)){
-			$fileContent = file_get_contents($path.$name);
-			$dataURL = 'data:' . $file["type"] . ';base64,' . base64_encode($fileContent);
-			$ret = stat($path.$name);
-			$ret["name"] = $name;
-			$ret["path"] = $path;
-			$ret["type"] = $file["type"];
-			$ret["size"] = $file["size"];
+		if(move_uploaded_file($_FILES["file"]["tmp_name"], $target.$path.$name)){
+			$fileContent = file_get_contents($target.$path.$name);
+			$dataURL = 'data:' . $_FILES["file"]["type"] . ';base64,' . base64_encode($fileContent);
+			$ret = stat($target.$path.$name);
+			$ret["path"] = "uploads/".$path;
+			$ret["name"] = $ret["path"].$name;
+			$ret["type"] = $_FILES["file"]["type"];
+			$ret["size"] = $_FILES["file"]["size"];
 			$ret["dataURL"] = $dataURL;
 			$OUTPUT->success(0, $ret);
 		}else{
-			$OUTPUT->error(1, "File Upload was unsuccessful for unknown reasons");
+			$OUTPUT->error(2, "File Upload was unsuccessful for unknown reasons, File Upload Error : " . $_FILES["file"]["error"]);
 		}
 	}
 }

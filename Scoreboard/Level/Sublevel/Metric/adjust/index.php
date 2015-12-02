@@ -20,7 +20,7 @@ $document = $collection->findAndModify(
 				 "user_id" => $RULES->getId()
 			)
 			,array( // update
-				$operator => array( "Levels.".$level_id.".Sublevels.".$sub_level_id.".Metrics.".$metric => $quantity)
+				$operator => array( "Levels.".$REQUEST->get("level_id").".sub_levels.".$REQUEST->get("sub_level_id").".Metrics.".$metric  => $quantity)
 			));
 
 $LOG = new Logging("Scoreboard.metric");

@@ -8,7 +8,7 @@ $collection = $db->selectCollection("Users");
 $RULES = new Rules(1, "scoreboard");
 $REQUEST = new Request();
 
-$quantity = $REQUEST->get("quantity", "1");
+$quantity = intval($REQUEST->get("quantity", "1"));
 $asset_id = $REQUEST->get("asset_id");
 
 $document = $collection->findAndModify(

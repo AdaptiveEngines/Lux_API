@@ -120,10 +120,12 @@ class Helper{
 				}else{
 					$update = array('$set' => $REQUEST->get("update"));
 				}
+				unset($update['$set']["_id"]);
 			}else{
 				$update = array('$unset' => array($REQUEST->get("update") => "remove")); 
 			}
 		}
+		unset($update["_id"]);
 		return $update;
 	}
 	static function formatQuery($REQUEST, $value_name=null, $key_name=null, $default=null){
@@ -139,6 +141,12 @@ class Helper{
 					$query = array("_id" => new MongoId($REQUEST->get("id")));
 				}else{
 					$query = array("_id" => $REQUEST->get("id"));
+				}
+			}else if($REQUEST->avail("_id")){
+				if(MongoId::isValid($REQUEST->get("_id"))){
+					$query = array("_id" => new MongoId($REQUEST->get("_id")));
+				}else{
+					$query = array("_id" => $REQUEST->get("_id"));
 				}
 			}
 		}else if($REQUEST->avail($value_name)){
@@ -171,7 +179,7 @@ class Helper{
 		return $query;
 	}
 	static function formatOptions($REQUEST, $options=array()){
-		if($REQUEST->avail("remove") && $REQUEST->get("remove")){
+		if($REQUEST->avail("remove") && $REQUEST->get("remove") === "true"){
 			$options["remove"] = true;
 		}
 		return $options;

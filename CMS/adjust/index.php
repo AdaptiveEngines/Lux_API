@@ -21,7 +21,7 @@ $collection = $DB->selectCollection($collectionName);
 $query = Helper::formatQuery($REQUEST, "field_name");
 
 // Values which are permitted by the Adjustment Script
-$permitted = array("test", "content.full", "content.short", "header.text","header.sub", "header.url_safe", "picture.banner", "picture.other[]", "picture.slideshow[]");
+$permitted = array("field_name", "content.full", "content.short", "header.text","header.sub", "header.url_safe", "picture.banner", "picture.other[]", "picture.slideshow[]");
 
 // Format Update and options
 $update = Helper::updatePermitted($REQUEST, $permitted);

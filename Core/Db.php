@@ -125,14 +125,27 @@ class Collection{
 		if(!isset($options["remove"])){
 			$options["update"] = true;
 			$options["upsert"] = true;
+			if(!isset($options["new"])){
+				$options["new"] = true;
+			}
+			$query = $this->queryFix($query);
+			//$update = $this->metaData($update);
+			if(empty($query)){
+				$options["multiple"] = false;
+				$this->collection->insert($update['$set'], $options);
+				return $update['$set'];
+			}else{
+				$this->collection->update($query, $update, $options);
+				return $this->collection->findOne($query);
+			}
+		}else{
+			$options["multiple"] = false;
+			$query = $this->queryFix($query);
+			//$update = $this->metaData($update);
+			$old_doc = $this->collection->findOne($query);
+			$this->collection->remove($query, $options);
+			return $old_doc;
 		}
-		if(!isset($options["new"])){
-			$options["new"] = true;
-		}
-		$query = $this->queryFix($query);
-		//$update = $this->metaData($update);
-		$this->collection->update($query, $update, $options);
-		return $this->collection->findOne($query);
 	}	
 	function update($query=array(), $update=null, $options=null){
 		if(is_null($options)){

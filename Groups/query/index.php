@@ -18,7 +18,7 @@ $collectionName = Helper::getCollectionName($REQUEST, "Groups");
 $collection = $db->selectCollection($collectionName);
 
 // Format Query
-$query = Helper::formatQuery($REQUESTi, "group_id");
+$query = Helper::formatQuery($REQUEST, "group_id");
 
 // Used for anayltics
 $LOG = new Logging("Groups.query");

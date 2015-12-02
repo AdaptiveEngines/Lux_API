@@ -21,7 +21,7 @@ $collection = $DB->selectCollection($collectionName);
 $query = Helper::formatQuery($REQUEST, "client_name"); 
 
 // Value's which are accepted by the adjustment script
-$permitted = array("client_name", "description", "redirect_uri[]");
+$permitted = array("client_name", "description", "redirect_uri");
 
 // Format Update and Options
 $update = Helper::updatePermitted($REQUEST, $permitted);
